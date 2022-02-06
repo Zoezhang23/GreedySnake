@@ -13,9 +13,9 @@ module.exports = {
     },
     module: {
         rules: [
+            //配置ts
             {
                 test: /\.ts$/,
-
                 use: [
                     {
                         //配置babel 加载
@@ -43,7 +43,35 @@ module.exports = {
                     'ts-loader',
                 ],
                 exclude: /node_module/,
-            }]
+            },
+            //设置less文件处理
+            {
+                test: /\.less$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    //引入postcss,兼容老版本css
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        "postcss-preset-env", {
+                                            browsers: 'last 2 versions'
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
+                    },
+                    "less-loader",
+
+
+
+                ]
+            },
+        ]
     },
     //配置webpack插件
     plugins: [
@@ -63,9 +91,8 @@ module.exports = {
     },
     target: 'node',
     mode: 'production',
-    devServer: {
-        port: '8081',
-        open: true
-
-    }
+    // devServer: {
+    //     port: '8081',
+    //     open: true
+    // }
 }
